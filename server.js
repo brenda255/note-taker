@@ -2,16 +2,26 @@ const express = require('express');
 const routes = require('./routes');
 
 const PORT = process.env.PORT || 3001;
-const app = express();
+const router = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
+router.use(express.static('public'));
 
-app.use(routes);
+router.use(routes);
   
+// GET Route for homepage
+router.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
+
+// GET Route for notes
+router.get('/feedback', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
+);
+
 
   // Listen for connections
-app.listen(PORT, () =>
-console.info(`Example app listening at http://localhost:${PORT} 🚀`)
+router.listen(PORT, () =>
+console.log(`App listening at http://localhost:${PORT} 🚀`)
 );

@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const fs = require('fs');
 const util = require('util');
 
@@ -9,6 +10,21 @@ const readFromFile = util.promisify(fs.readFile);
  *  @param {object} content The content you want to write to the file.
  *  @returns {void} Nothing
  */
+
+const read = () => readFromFile("db/apiRoutes.json", "utf-8");
+
+const getNotes = () => {
+    return read().then(notes => {
+        let parsedNotes;
+        try {
+            parsedNotes = [].concat(JSON.parse(notes));
+        } catch (error) {
+            parsedNotes = []
+        }    
+        return parsedNotes; 
+    })
+}
+
 const writeToFile = (destination, content) =>
   fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
     err ? console.error(err) : console.info(`\nData written to ${destination}`)
@@ -31,4 +47,4 @@ const readAndAppend = (content, file) => {
   });
 };
 
-module.exports = { readFromFile, writeToFile, readAndAppend };
+module.exports = { readFromFile, writeToFile, readAndAppend, getNotes };

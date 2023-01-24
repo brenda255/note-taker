@@ -16,7 +16,7 @@ router.get('/', (req, res) =>
 );
 
 // GET Route for notes
-router.get('/feedback', (req, res) =>
+router.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
